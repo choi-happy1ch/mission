@@ -20,15 +20,15 @@ export default function App() {
   const [formData, setFormData] = useState({});
 
   const nextStep = () => {
-    if (step === 'welcome') setStep('diagnosis');
-    else if (step === 'diagnosis') setStep('success');
+    if (step === 'welcome') setStep('registration');
+    else if (step === 'registration') setStep('success');
   };
 
   return (
     <div className="container">
       <AnimatePresence mode="wait">
         {step === 'welcome' && <WelcomeView key="welcome" onNext={nextStep} />}
-        {step === 'diagnosis' && <DiagnosisView key="diagnosis" onNext={nextStep} />}
+        {step === 'registration' && <RegistrationView key="registration" onNext={nextStep} />}
         {step === 'success' && <SuccessView key="success" onOpenBoard={() => setStep('board')} />}
         {step === 'board' && <BoardView key="board" onBack={() => setStep('success')} />}
       </AnimatePresence>
@@ -73,7 +73,7 @@ const WelcomeView = ({ onNext }) => (
   </motion.div>
 );
 
-const DiagnosisView = ({ onNext }) => {
+const RegistrationView = ({ onNext }) => {
   const [answers, setAnswers] = useState({});
 
   return (
@@ -83,39 +83,60 @@ const DiagnosisView = ({ onNext }) => {
       exit={{ opacity: 0, x: -20 }}
       className="glass-card"
     >
-      <div className="section-label">자기 진단 및 참여 준비</div>
-      <h2>참석 전 미리 점검해 주세요 🩺</h2>
-      <p style={{ color: 'var(--text-dim)', marginBottom: '2rem' }}>
-        세미나 당일 매끄러운 진행을 위해 몇 가지 정보를 확인합니다.
-      </p>
+      <div className="section-label">참가 신청 및 자기 진단</div>
+      <h2>세미나 참여를 위한 기본 정보 📝</h2>
 
-      {seminarData.diagnosis.map((q) => (
-        <div key={q.id} className="form-group">
-          <label>{q.question}</label>
-          {q.id === 'q1' ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input type="checkbox" id={q.id} style={{ width: 'auto' }} />
-                <span style={{ fontSize: '0.9rem' }}>네, 정확히 알고 있습니다.</span>
-              </div>
-              <div className="video-card" style={{ padding: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-                <ShieldCheck size={20} color="#ef4444" />
-                <div style={{ fontSize: '0.85rem' }}>
-                  비밀번호를 모르시면 지금 <a href="https://accounts.google.com/signin/recovery" target="_blank" style={{ color: '#ef4444', fontWeight: '700' }}>여기에서 재설정</a>하세요.
+      <div style={{ marginBottom: '2rem' }}>
+        <h3 style={{ fontSize: '1.2rem', color: 'var(--primary)', marginBottom: '1rem' }}>1. 기본 인적 사항</h3>
+        {seminarData.registrationFields.map((f) => (
+          <div key={f.id} className="form-group">
+            <label>{f.label} {f.required && '*'}</label>
+            {f.type === 'select' ? (
+              <select>
+                {f.options.map(opt => <option key={opt}>{opt}</option>)}
+              </select>
+            ) : (
+              <input type={f.type} placeholder={f.placeholder} />
+            )}
+            {f.description && <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.3rem' }}>{f.description}</p>}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginBottom: '2rem' }}>
+        <h3 style={{ fontSize: '1.2rem', color: 'var(--primary)', marginBottom: '1rem' }}>2. 사전 진단 및 의견</h3>
+        {seminarData.diagnosis.map((q) => (
+          <div key={q.id} className="form-group">
+            <label>{q.question}</label>
+            {q.type === 'checkbox' ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input type="checkbox" id={q.id} style={{ width: 'auto' }} />
+                  <span style={{ fontSize: '0.9rem' }}>네, 정확히 알고 있습니다.</span>
                 </div>
+                {q.id === 'q1' && (
+                  <div className="video-card" style={{ padding: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+                    <ShieldCheck size={20} color="#ef4444" />
+                    <div style={{ fontSize: '0.85rem' }}>
+                      비밀번호를 모르시면 지금 <a href="https://accounts.google.com/signin/recovery" target="_blank" style={{ color: '#ef4444', fontWeight: '700' }}>여기에서 재설정</a>하세요.
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          ) : (
-            <select>
-              {q.options.map(opt => <option key={opt}>{opt}</option>)}
-            </select>
-          )}
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.3rem' }}>{q.description}</p>
-        </div>
-      ))}
+            ) : q.type === 'textarea' ? (
+              <textarea rows="3" placeholder="내용을 입력해 주세요"></textarea>
+            ) : (
+              <select>
+                {q.options?.map(opt => <option key={opt}>{opt}</option>)}
+              </select>
+            )}
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.3rem' }}>{q.description}</p>
+          </div>
+        ))}
+      </div>
 
       <button className="btn btn-primary" onClick={onNext} style={{ width: '100%', justifyContent: 'center', marginTop: '1rem' }}>
-        진단 완료 및 등록 <CheckCircle size={18} />
+        참가 신청 완료 <CheckCircle size={18} />
       </button>
     </motion.div>
   );

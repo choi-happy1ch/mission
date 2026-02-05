@@ -27,26 +27,40 @@ export const seminarData = {
             method: "단답형 질문 vs 맥락형 질문 비교 실습"
         }
     ],
+    registrationFields: [
+        { id: "name", label: "이름", type: "text", placeholder: "성함을 입력해 주세요", required: true },
+        { id: "church", label: "시무교회", type: "text", placeholder: "교회 이름을 입력해 주세요", required: true },
+        { id: "denomination", label: "교단", type: "text", placeholder: "소속 교단을 입력해 주세요", required: true },
+        { id: "email", label: "구글 메일 주소", type: "email", placeholder: "example@gmail.com", description: "@gmail.com 형식을 권장합니다.", required: true },
+        {
+            id: "mail_response",
+            label: "메일 응답 설정",
+            type: "select",
+            options: ["정기 안내 메일 수신", "세미나 관련 긴급 안내만 수신"],
+            required: true
+        }
+    ],
     diagnosis: [
         {
             id: "q1",
             question: "구글 계정(Gmail) 주소와 비밀번호를 정확히 알고 계신가요?",
             description: "세미나 당일 로그인을 위해 필수입니다. 비밀번호를 모르신다면 미리 [구글 비밀번호 찾기](https://accounts.google.com/signin/recovery)를 통해 재설정해 주세요.",
+            required: true,
+            type: "checkbox"
+        },
+        {
+            id: "ai_help",
+            question: "지금 어떤 일을 AI의 도움을 받고 싶습니까? 또는 당신에게 비서가 3명 있다면 어떤 일을 맡겨보겠습니까?",
+            description: "AI를 통해 해결하고 싶은 가장 절실한 문제를 적어주세요.",
+            type: "textarea",
             required: true
         },
         {
-            id: "q2",
-            question: "AI 도구(ChatGPT, Gemini 등)를 사용해보신 적이 있나요?",
-            description: "기술 수준에 맞춘 맞춤형 지원을 위해 필요합니다.",
-            type: "select",
-            options: ["처음입니다", "가끔 사용합니다", "자주 사용합니다"]
-        },
-        {
-            id: "q3",
-            question: "세미나에 지참하실 기기는 무엇인가요?",
-            description: "실습 환경 구성을 위해 필요합니다.",
-            type: "multi",
-            options: ["노트북", "태블릿", "스마트폰"]
+            id: "pain_point",
+            question: "'이런 일을 좀 쉽게 하는 방법은 없을까' 목회 현장에서 가장 오래 시간을 소비하게 하는 작업은 무엇인가요?",
+            description: "업무 효율화를 위한 실습 사례 선정에 활용됩니다.",
+            type: "textarea",
+            required: true
         }
     ],
     preLearning: [
