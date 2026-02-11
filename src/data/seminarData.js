@@ -1,6 +1,12 @@
 export const seminarData = {
     title: "AI 목회 활용 세미나",
     description: "인공지능을 통해 목회 사역의 지평을 넓히는 실무 세미나",
+    eventInfo: {
+        date: "2026년 3월 2일(월) 10시-12시",
+        location: "대구성동교회",
+        fee: "2만원",
+        hookingMessage: "인공지능을 통해 설교 준비부터 이미지 생성, 슬라이드 구성까지 목회 사역의 효율을 극대화하는 방법을 제안합니다."
+    },
     sessions: [
         {
             id: 1,
@@ -42,27 +48,51 @@ export const seminarData = {
     ],
     diagnosis: [
         {
-            id: "q1",
-            question: "구글 계정(Gmail) 주소와 비밀번호를 정확히 알고 계신가요?",
-            description: "세미나 당일 로그인을 위해 필수입니다. 비밀번호를 모르신다면 미리 [구글 비밀번호 찾기](https://accounts.google.com/signin/recovery)를 통해 재설정해 주세요.",
-            required: true,
-            type: "checkbox"
+            id: "yt_mobile",
+            question: "1. 휴대폰에서 유튜브 앱을 켰을 때, 특정 채널을 '구독'할 수 있나요?",
+            description: "구독 버튼이 활성화된다면 이미 휴대폰에 구글 로그인이 되어 있는 상태입니다. (안 되어 있다면 로그인 창이 뜹니다)",
+            type: "select",
+            options: ["네, 구독 중인 채널이 있습니다.", "아니요, 로그인이 필요하다고 뜹니다.", "잘 모르겠습니다."]
+        },
+        {
+            id: "yt_pc",
+            question: "2. 노트북 브라우저(크롬 등)에서 유튜브 접속 시 우측 상단에 '프로필 사진'이나 '이름'이 보이나요?",
+            description: "로그인된 상태라면 본인의 정보가 보입니다. 보이지 않는다면 미리 로그인을 해주셔야 세미나 참여가 원활합니다.",
+            type: "select",
+            options: ["네, 보입니다.", "아니요, '로그인' 버튼만 보입니다."]
+        },
+        {
+            id: "gemini_check",
+            question: "3. 지금 바로 [구글 제미나이](https://gemini.google.com/)에 접속해 보세요. 자동으로 로그인이 되나요?",
+            description: "노트북에서 직접 클릭해 보세요. 비밀번호를 묻는다면 그 계정의 비밀번호를 미리 메모해 오셔야 합니다.",
+            type: "select",
+            options: ["자동으로 바로 입장됩니다.", "비밀번호를 입력하라고 나옵니다.", "계정 자체가 없다고 나옵니다."]
         },
         {
             id: "ai_help",
-            question: "지금 어떤 일을 AI의 도움을 받고 싶습니까? 또는 당신에게 비서가 3명 있다면 어떤 일을 맡겨보겠습니까?",
+            question: "4. 지금 어떤 일을 AI의 도움을 받고 싶습니까? 또는 당신에게 비서가 3명 있다면 어떤 일을 맡겨보겠습니까?",
             description: "AI를 통해 해결하고 싶은 가장 절실한 문제를 적어주세요.",
             type: "textarea",
             required: true
         },
         {
             id: "pain_point",
-            question: "'이런 일을 좀 쉽게 하는 방법은 없을까' 목회 현장에서 가장 오래 시간을 소비하게 하는 작업은 무엇인가요?",
+            question: "5. '이런 일을 좀 쉽게 하는 방법은 없을까' 목회 현장에서 가장 오래 시간을 소비하게 하는 작업은 무엇인가요?",
             description: "업무 효율화를 위한 실습 사례 선정에 활용됩니다.",
             type: "textarea",
             required: true
         }
     ],
+    notebookLM: {
+        title: "노트북LM(NotebookLM) 로그인 안내",
+        steps: [
+            "1. [NotebookLM 공식 사이트](https://notebooklm.google.com/)에 접속합니다.",
+            "2. 화면 우측 상단의 'Try NotebookLM' 버튼을 클릭합니다.",
+            "3. 이미 구글 로그인이 되어 있다면 바로 사용이 가능하며, 아닐 경우 구글 계정으로 로그인해 주세요.",
+            "4. 첫 화면에서 'Welcome' 메시지가 나오면 성공입니다!"
+        ],
+        tip: "NotebookLM은 별도의 설치 없이 웹브라우저에서 바로 실행됩니다."
+    },
     preLearning: [
         {
             title: "필수 시청 1: 구글 계정 보안 관리",

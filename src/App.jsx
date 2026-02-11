@@ -11,7 +11,9 @@ import {
   ShieldCheck,
   Smartphone,
   Upload,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Calendar,
+  MapPin
 } from 'lucide-react';
 import { seminarData } from './data/seminarData';
 
@@ -43,12 +45,26 @@ const WelcomeView = ({ onNext }) => (
     exit={{ opacity: 0, x: -20 }}
     className="glass-card"
   >
-    <div className="section-label">2026 AI Pastoral Seminar</div>
-    <h1 className="gradient-text" style={{ fontSize: '2.5rem' }}>AI 목회 활용 세미나</h1>
+    <div className="section-label">{seminarData.title}</div>
+    <h1 className="gradient-text" style={{ fontSize: '2.5rem' }}>{seminarData.title}</h1>
     <p style={{ color: 'var(--text-dim)', marginBottom: '2rem' }}>
-      인공지능을 통해 설교 준비부터 이미지 생성, 슬라이드 구성까지
-      목회 사역의 효율을 극대화하는 방법을 제안합니다.
+      {seminarData.eventInfo.hookingMessage}
     </p>
+
+    <div style={{ marginBottom: '2rem', background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '1rem' }}>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '0.8rem' }}>
+        <Calendar size={18} color="var(--primary)" />
+        <span style={{ fontSize: '0.95rem' }}>{seminarData.eventInfo.date}</span>
+      </div>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '0.8rem' }}>
+        <MapPin size={18} color="var(--primary)" />
+        <span style={{ fontSize: '0.95rem' }}>{seminarData.eventInfo.location}</span>
+      </div>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Zap size={18} color="var(--primary)" />
+        <span style={{ fontSize: '0.95rem' }}>참가비: {seminarData.eventInfo.fee}</span>
+      </div>
+    </div>
 
     <div style={{ display: 'grid', gap: '1rem', marginBottom: '2.5rem' }}>
       {seminarData.sessions.map((session) => (
@@ -170,6 +186,18 @@ const SuccessView = ({ onOpenBoard }) => (
       ))}
     </div>
 
+    <div style={{ background: 'rgba(139, 92, 246, 0.1)', borderRadius: '1rem', padding: '1.5rem', textAlign: 'left', marginBottom: '2rem', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+      <h3 style={{ color: 'var(--primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <BookOpen size={20} /> {seminarData.notebookLM.title}
+      </h3>
+      <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '0.75rem' }}>
+        {seminarData.notebookLM.steps.map((step, i) => (
+          <li key={i} style={{ fontSize: '0.9rem', color: 'var(--text-dim)', lineHeight: '1.5' }}>{step}</li>
+        ))}
+      </ul>
+      <p style={{ fontSize: '0.8rem', color: 'var(--primary)', marginTop: '1rem', fontWeight: '600' }}>💡 {seminarData.notebookLM.tip}</p>
+    </div>
+
     <div style={{ display: 'flex', gap: '1rem' }}>
       <button className="btn btn-primary" onClick={onOpenBoard} style={{ flex: 1, justifyContent: 'center' }}>
         실시간 작업 보드 구경하기 <ImageIcon size={18} />
@@ -210,6 +238,34 @@ const BoardView = ({ onBack }) => (
           </div>
         </div>
       ))}
+    </div>
+
+    {/* 피드백 설문 섹션 추가 */}
+    <div style={{
+      marginTop: '3rem',
+      padding: '2rem',
+      background: 'rgba(139, 92, 246, 0.1)',
+      borderRadius: '1rem',
+      textAlign: 'center',
+      border: '1px solid rgba(139, 92, 246, 0.3)'
+    }}>
+      <h3 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>🎉 세미나를 마치며</h3>
+      <p style={{ color: 'var(--text-dim)', marginBottom: '1.5rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
+        오늘 세미나는 어떠셨나요? <br />
+        소중한 의견을 남겨주시면 더 유익한 심화 과정으로 보답하겠습니다.
+      </p>
+      <a
+        href="https://forms.gle/fLA5paUZoPRT6v6D9"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-primary"
+        style={{ width: '100%', alignItems: 'center', display: 'flex', gap: '0.5rem', justifyContent: 'center' }}
+      >
+        세미나 피드백 남기기 <ExternalLink size={18} />
+      </a>
+      <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '1rem' }}>
+        ※ 버튼을 클릭하면 구글 설문지로 이동합니다.
+      </p>
     </div>
   </motion.div>
 );
